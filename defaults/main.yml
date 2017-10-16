@@ -2,7 +2,7 @@
 instance_name: db
 instance_role: ""
 instance_ansible_port: "22"
-instance_ansible_user: "nehrman"
+instance_ansible_user: "ansible"
 instance_win_initial_password: "P@ssw0rd01"
 az_region: "westeurope"
 az_location: "{{ az_region }}"
