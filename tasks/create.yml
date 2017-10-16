@@ -52,6 +52,8 @@
       application: "{{ az_application }}"
   register: az
 
+- debug: var=az
+
 - name: Add instances to inventory
   local_action:
     module: add_host
