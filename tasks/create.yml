@@ -28,7 +28,7 @@
     name: "{{ az_vm_nic_name }}"
     virtual_network: "{{ az_virtualnet_name }}"
     subnet: "{{ az_subnet_name }}"
-#    public_ip_name: "{{ az_public_ip_name }}"
+    public_ip_name: "{{ az_public_ip_name }}"
     security_group: "{{ az_secgroup_name }}"
 
 - name: "Create Virtual Machine {{ az_vm_name }}"
