@@ -7,7 +7,7 @@
     state: present
     tags:
       purpose: "{{ az_environment }}"
-      customer: "{{ az_customer }}"
+#      customer: "{{ az_customer }}"
 #   register: return_azrg
 
 - name:  Create {{ az_virtualnet_name }} Virtual Network on {{ az_region }}
@@ -20,7 +20,7 @@
     state: present
     tags:
       purpose: "{{ az_environment }}"
-      customer: "{{ az_customer }}"
+#      customer: "{{ az_customer }}"
    #    register: return_azvirtnet
 
 - name:  Create {{ az_subnet_name }} Subnet on {{ az_region }}
@@ -33,7 +33,7 @@
     state: present
     tags:
       purpose: "{{ az_environment }}"
-      customer: "{{ az_customer }}"
+#      customer: "{{ az_customer }}"
 #    register: return_azsubnet
 
 - name:  Create {{ az_secgroup_name }} Security Group on {{ az_region }}

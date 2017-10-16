@@ -49,7 +49,6 @@
       version: "{{ az_image_version }}"
     tags:
       purpose: "{{ az_environment }}"
-      customer: "{{ az_customer }}"
       application: "{{ az_application }}"
   register: az
 
