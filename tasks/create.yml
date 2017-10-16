@@ -1,5 +1,5 @@
 ---
-- name:  Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
+- name: Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
   local_action:
     module: azure_rm_storageaccount
     name: "{{ az_storageaccount_name }}"
@@ -53,17 +53,17 @@
       application: "{{ az_application }}"
   register: az
 
-  - name: Add instances to inventory
-    local_action:
-      module: add_host
-      name: "{{ item.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
-      ansible_host: "{{ item.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
-      ansible_user: "{{ instance_ansible_user }}"
-      ansible_port: "{{ instance_ansible_port }}"
-      groups:
-        - "az"
-        - "{{ instance_role }}"
-        - "{{ os_type }}"
-  #         - "tag_Environment_{{ item.item.Environment }}"
-    with_items: "{{ az.instances }}"
-    when: az
+- name: Add instances to inventory
+  local_action:
+    module: add_host
+    name: "{{ item.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+    ansible_host: "{{ item.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+    ansible_user: "{{ instance_ansible_user }}"
+    ansible_port: "{{ instance_ansible_port }}"
+    groups:
+      - "az"
+      - "{{ instance_role }}"
+      - "{{ os_type }}"
+#         - "tag_Environment_{{ item.item.Environment }}"
+  with_items: "{{ az.instances }}"
+  when: az
