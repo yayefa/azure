@@ -43,7 +43,7 @@
     admin_password: "{{ az_vm_admin_pwd }}"
     ssh_password_enabled: "{{ az_ssh_pwd_enabled }}"
     ssh_public_keys:
-        - path: /Users/nehrman/.ssh/id_rsa.pub
+        - path: "/home/{{ az_vm_admin_user }}/.ssh/authorized_key"
           key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC42m1iQGqo8HR9JhNUEm8BGLAnh0+wS072EH9W4pAXdZZk2sl76xEBHTw4Q9G98Bh7/PbUoK7QpHoBvBTz4okBWK0xYjqjyNIXDZeTtkiRzg9EZp47wEqDFB1ZSeWyMPuXAi2j9wQcd7WqOD9nyf22j+aDN98syLWKpQylX2vEfzgSPBF9bWi8hOihSOJ9zjbHjOdYRFraD6knrst/kL+itbq/A5ERzXkx6HY1q3nYfWRX1I4k1bXRsKb+uZE15RNCLbVpuhp2ScWEH6lcEtZNtZHytxCk8EcajPyFfkUfTNX0wOqPzcCBiCTPbqLK2x7+qRj4YfHdifggVl45g26F nehrman@dhcp-193-21.cdg.redhat.com"
     image:
       offer: "{{ az_image_offer }}"
