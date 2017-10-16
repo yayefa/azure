@@ -1,0 +1,51 @@
+---
+- name:  Create {{ az_resourcegroup_name }} Resource Group on {{ az_region }}
+  local_action:
+    module: azure_rm_resourcegroup
+    location: "{{ az_location }}"
+    name: "{{ az_resourcegroup_name }}"
+    state: present
+    tags:
+      purpose: "{{ az_environment }}"
+      customer: "{{ az_customer }}"
+#   register: return_azrg
+
+- name:  Create {{ az_virtualnet_name }} Virtual Network on {{ az_region }}
+  local_action:
+    module: azure_rm_virtualnetwork
+    location: "{{ az_location }}"
+    resource_group: "{{ az_resourcegroup_name }}"
+    name: "{{ az_virtualnet_name }}"
+    address_prefixes_cidr: "{{ az_cidr_prefix }}"
+    state: present
+    tags:
+      purpose: "{{ az_environment }}"
+      customer: "{{ az_customer }}"
+   #    register: return_azvirtnet
+
+- name:  Create {{ az_subnet_name }} Subnet on {{ az_region }}
+  local_action:
+    module: azure_rm_subnet
+    name: "{{ az_subnet_name }}"
+    resource_group: "{{ az_resourcegroup_name }}"
+    virtual_network_name: "{{ az_virtualnet_name }}"
+    address_prefix_cidr: "{{ az_cidr_prefix }}"
+    state: present
+    tags:
+      purpose: "{{ az_environment }}"
+      customer: "{{ az_customer }}"
+#    register: return_azsubnet
+
+- name:  Create {{ az_secgroup_name }} Security Group on {{ az_region }}
+  local_action:
+    module: azure_rm_securitygroup
+    resource_group: "{{ az_resourcegroup_name }}"
+    name: "{{ az_secgroup_name }}"
+    rules:
+      - name: SSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 101
+        direction: Inbound
+#    register: return_azsubnet

@@ -1,0 +1,69 @@
+---
+- name:  Create "{{ az_storageaccount_name }}" Storage Account for "{{ az_resourcegroup_name }}"
+  local_action:
+    module: azure_rm_storageaccount
+    name: "{{ az_storageaccount_name }}"
+    resource_group: "{{ az_resourcegroup_name }}"
+    location: "{{ az_location }}"
+    type: "{{ az_storageaccount_type }}"
+    kind: "{{ az_storageaccount_kind }}"
+#    access_tier: "{{ az_storageaccount_tier }}"
+    state: present
+    tags:
+      purpose: "{{ az_environment }}"
+      customer: "{{ az_customer }}"
+#    register: return_azstoaccnt
+
+- name: Create public ip
+  local_action:
+    module: azure_rm_publicipaddress
+    resource_group: mytestresourcegroup
+    allocation_method: "{{ az_public_ip_method }}"
+    name: "{{ az_public_ip_name }}"
+
+- name: Create NIC
+  local_action:
+    module: azure_rm_networkinterface
+    resource_group: "{{ az_resourcegroup_name }}"
+    name: "{{ az_vm_nic_name }}"
+    virtual_network: "{{ az_virtualnet_name }}"
+    subnet: "{{ az_subnet_name }}"
+#    public_ip_name: "{{ az_public_ip_name }}"
+    security_group: "{{ az_secgroup_name }}"
+
+- name: Create Virtual Machine
+  local_action:
+    module: azure_rm_virtualmachine
+    resource_group: "{{ az_resourcegroup_name }}"
+    location: "{{ az_location }}"
+    name: "{{ az_vm_name }}"
+    vm_size: "{{ az_vm_size }}"
+    storage_account_name: "{{ az_storageaccount_name }}"
+    admin_username: "{{ az_vm_admin_user }}"
+    admin_password: "{{ az_vm_admin_pwd }}"
+    ssh_password_enabled: "{{ az_ssh_pwd_enabled }}"
+    image:
+      offer: "{{ az_image_offer }}"
+      publisher: "{{ az_image_publisher }}"
+      sku: "{{ az_image_sku }}"
+      version: "{{ az_image_version }}"
+    tags:
+      purpose: "{{ az_environment }}"
+      customer: "{{ az_customer }}"
+      application: "{{ az_application }}"
+  register: az
+
+  - name: Add instances to inventory
+    local_action:
+      module: add_host
+      name: "{{ item.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+      ansible_host: "{{ item.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+      ansible_user: "{{ instance_ansible_user }}"
+      ansible_port: "{{ instance_ansible_port }}"
+      groups:
+        - "az"
+        - "{{ instance_role }}"
+        - "{{ os_type }}"
+  #         - "tag_Environment_{{ item.item.Environment }}"
+    with_items: "{{ az.instances }}"
+    when: az
