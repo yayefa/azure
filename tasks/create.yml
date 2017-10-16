@@ -11,7 +11,7 @@
     state: present
     tags:
       purpose: "{{ az_environment }}"
-      customer: "{{ az_customer }}"
+#      customer: "{{ az_customer }}"
 #    register: return_azstoaccnt
 
 - name: Create public ip
