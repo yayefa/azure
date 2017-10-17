@@ -1,4 +1,8 @@
 ---
 
 - include: setup.yml
+  tags:
+    - az_setup
 - include: create.yml
+  tags:
+    - az_create
