@@ -1,12 +1,13 @@
 - name: Azure Playbook
- hosts: all
+  hosts: all
   become: yes
   become_method: sudo
 
   tasks:
     - name: Installer les packages
-      yum: name="{{ item }}" 
-	  state: latest
+      yum: 
+        name: "{{ item }}" 
+        state: latest
       with_items:
         - httpd
         - php
