@@ -1,0 +1,12 @@
+azure_rm_virtualmachine:
+  resource_group: RG-GS
+  name: testvmae
+  vm_size: Standard_D1
+  admin_username: aelouarichi
+  ssh_password: false
+  ssh_public_keys: "{{ ssh_keys }}"
+  image:
+    offer: CentOS
+    publisher: OpenLogic
+    sku: '7.1'
+    version: latest
