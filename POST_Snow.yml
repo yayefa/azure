@@ -1,0 +1,15 @@
+---
+
+- name: ansible POST to Snow
+  hosts: localhost
+
+  tasks:
+    - name: POST
+      uri:
+        url: "https://devoteamfrdev.service-now.com"
+        method: POST
+        body:
+            Username: test
+            Password: test
+        status_code: 200
+        body_format: json
